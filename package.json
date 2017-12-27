@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nathandalal/react-express-template.git"
+    "url": "git+https://github.com/nathandalal/react-express-template.git"
   },
   "description": "A simple template with Node, Express, and React that exposes a self-documenting API.",
   "main": "app.js",
@@ -13,6 +13,7 @@
     "consolidate": "^0.15.0",
     "express": "^4.15.3",
     "mongodb": "^3.0.0",
+    "morgan": "^1.9.0",
     "nunjucks": "^3.0.1",
     "prop-types": "^15.5.10",
     "react": "^16.2.0",
@@ -35,10 +36,10 @@
   },
   "scripts": {
     "test": "node test/test.js",
-    "lint": "./node_modules/.bin/eslint . --ext .jsx || true",
+    "lint": "eslint . --ext .jsx || true",
     "server:watch": "nodemon app.js",
-    "build:watch": "./node_modules/.bin/webpack -d --watch",
-    "build": "./node_modules/.bin/webpack -p",
+    "build:watch": "webpack -d --watch",
+    "build": "webpack -p",
     "server": "node app.js",
     "dev": "npm run build:watch & npm run server:watch",
     "start": "npm run server"
@@ -55,5 +56,12 @@
     "webpack"
   ],
   "author": "Nathan Dalal",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nathandalal/react-express-template/issues"
+  },
+  "homepage": "https://github.com/nathandalal/react-express-template#readme",
+  "directories": {
+    "test": "test"
+  }
 }

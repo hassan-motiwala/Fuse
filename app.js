@@ -1,24 +1,32 @@
-const express = require('express')
-const engines = require('consolidate')
-const config = require('./config')
+const express = require('express');
+const engines = require('consolidate');
+const bodyParser = require('body-parser');
+var morganLogger = require('morgan')
 
-const apiRoutes = require('./api/index')
+const PORT = require('./config/serverConfig.js').PORT;
+const APPNAME = require('./config/serverConfig.js').APPNAME;
 
-const app = express()
+const apiRoutes = require('./api/index');
+const testing = require('./routes/testing');
 
-app.use('/api', apiRoutes)
+const app = express();
 
-app.engine('njk', engines.nunjucks)
-app.set('view engine', 'njk')
-app.set('views', __dirname + '/views')
-app.use(express.static('public'))
+app.use('/api', apiRoutes);
+app.use('/testing', testing);
+
+app.engine('njk', engines.nunjucks);
+app.set('view engine', 'njk');
+app.set('views', __dirname + '/views');
+app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('*', (req, res) => {
-  res.render('pages/index', {
-    appname: config.APPNAME
-  })
-})
+    res.render('pages/index', {
+        appname: APPNAME
+    });
+});
 
-app.listen(config.PORT, function () {
-  console.log(`App currently running; navigate to localhost:${config.PORT} in a web browser.`)
+app.listen(PORT, function () {
+    console.log(`App currently running; navigate to localhost:${PORT} in a web browser.`);
 })

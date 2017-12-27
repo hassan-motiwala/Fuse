@@ -1,19 +1,21 @@
-import React from 'react'
-import { render } from 'react-dom'
-import { BrowserRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom'
+import React from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, Link } from 'react-router-dom';
 
-import Home from './components/home.jsx'
-import About from './components/about.jsx'
+import Home from './components/home.jsx';
+import About from './components/about.jsx';
+import Testing from './components/testing.jsx';
 
 class Index extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   render() {
     let routes = [
       { path: "/",           name: "Home",        btnType: "primary",   component: Home },
-      { path: "/about",      name: "About",       btnType: "info",      component: About }
+      { path: "/about",      name: "About",       btnType: "info",      component: About },
+      { path: "/testing",      name: "Testing",       btnType: "info",      component: Testing }
     ]
 
     return (

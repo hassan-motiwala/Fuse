@@ -13,7 +13,7 @@ export default class About extends React.Component {
 		axios.get('/api/helloworld')
 		.then(({data}) => this.setState({
 			text: data.text
-		}))
+		}));
 	}
 
 	render() {
@@ -25,6 +25,6 @@ export default class About extends React.Component {
 					This text comes from <a href="/api">an API located here</a>. <pre>{this.state.text}</pre>	
 				</p>
 			</div>
-		)
+		);
 	}
 }

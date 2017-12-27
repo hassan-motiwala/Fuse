@@ -1,12 +1,6 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-var router = express.Router()
-
-router.use(express.static('public'))
-router.use(bodyParser.urlencoded({ extended: true }))
-router.use(bodyParser.json())
-
-const config = require('../config')
+const express = require('express');
+const bodyParser = require('body-parser');
+var router = express.Router();
 
 var availableRoutes = [
     {
@@ -17,14 +11,13 @@ var availableRoutes = [
             "Example of how to set up an Express API in a separate router file."
         ]
     }
-]
+];
 
 router.get('/', (req, res) => {
     res.render('pages/api-entry', {
-        appname: config.APPNAME,
         routes: availableRoutes
-    })
-})
+    });
+});
 
 const internalServerError = 
     (res, reason, source) => res.status(500).send({ error: `Error retrieving data from ${source}.`, reason: reason })
@@ -38,6 +31,6 @@ router.get(availableRoutes[0].routename, (req, res) => {
 })
 
 //nothing matched our api requests, return 404
-router.get('*', (req, res) => res.status(404).send({ error: 'Invalid API usage. Response not found.' }))
+router.get('*', (req, res) => res.status(404).send({ error: 'Invalid API usage. Response not found.' }));
 
-module.exports = router
+module.exports = router;
