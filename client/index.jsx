@@ -5,7 +5,7 @@ import { BrowserRouter, Switch, Route, Redirect, Link } from 'react-router-dom';
 import Home from './components/home.jsx';
 import About from './components/about.jsx';
 import Testing from './components/testing.jsx';
-import Nav from './components/navbar.jsx';
+import NavBar from './components/navbar/navbar.jsx';
 
 class Index extends React.Component {
   constructor(props) {
@@ -22,16 +22,11 @@ class Index extends React.Component {
     return (
       <BrowserRouter>
         <div style={{padding: "5%"}}>
-        <NavBar/>
-        <Switch>
-            {routes.map(route => <Route exact path={route.path} component={route.component} key={route.path} />)}
-            <Redirect to ="/"/>
+          <NavBar/>
+          <Switch>
+              {routes.map(route => <Route exact path={route.path} component={route.component} key={route.path} />)}
+              <Redirect to ="/"/>
           </Switch>
-          <div className="block">
-            {routes.map(route => 
-              <Link to={route.path} className={`button is-${route.btnType}`} key={route.path}>{route.name}</Link>
-            )}
-          </div>
         </div>
       </BrowserRouter>
     );
