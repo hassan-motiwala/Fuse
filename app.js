@@ -1,10 +1,12 @@
 const express = require('express');
 const engines = require('consolidate');
 const bodyParser = require('body-parser');
-var morganLogger = require('morgan')
+const morganLogger = require('morgan');
 
 const PORT = require('./config/serverConfig.js').PORT;
 const APPNAME = require('./config/serverConfig.js').APPNAME;
+const KEYS = require('./config/serverConfig.js').KEYS;
+const URL = KEYS.mongoURI;
 
 const apiRoutes = require('./api/index');
 const testing = require('./routes/testing');

@@ -1,12 +1,19 @@
 const express = require('express');
 var router = express.Router();
+const mongoConnect = require('../libraries/mongoConnect.js');
 
-router.get('/', (req, res, next) => {
-    res.render('pages/testing')
+var DB;
+mongoConnect.connect(() => {
+    DB = mongoConnect.getDB();
 });
 
-//nothing matched
-router.get('*', (req, res) => res.status(404).send({ error: 'Invalid Link' }));
+router.get('/', (req, res, next) => {
+    const testDB = DB.collection('testing');
+    testDB.find({test:"YAY"}).toArray((err, result)=> {
+        console.log(result);
+    });
+    res.render('pages/testing');
+});
 
 
 module.exports = router;
