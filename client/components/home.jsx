@@ -6,7 +6,7 @@ const Home = () => {
       <h1>Welcome to Fuse</h1>
       <h4>Temporary Landing Page</h4>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
