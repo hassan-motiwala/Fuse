@@ -1,7 +1,8 @@
 const express = require('express');
 var router = express.Router();
-const mongoConnect = require('../libraries/mongoConnect.js');
 
+//Connect To MongoDB
+const mongoConnect = require('../libraries/mongoConnect.js');
 var DB;
 mongoConnect.connect(() => {
     DB = mongoConnect.getDB();
