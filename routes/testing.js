@@ -10,8 +10,12 @@ mongoConnect.connect(() => {
 
 router.get('/', (req, res, next) => {
     const testDB = DB.collection('testing');
-    testDB.find({test:"YAY"}).toArray((err, result)=> {
-        console.log(result);
+    testDB.find({test:"YAY"}).toArray((err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(result);
+        }
     });
     res.render('pages/testing');
 });
