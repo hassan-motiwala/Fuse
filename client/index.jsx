@@ -2,10 +2,11 @@ import React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route, Redirect, Link } from 'react-router-dom';
 
-import Home from './components/home.jsx';
+import Home from './components/home/home.jsx';
 import About from './components/about.jsx';
 import Testing from './components/testing.jsx';
 import NavBar from './components/navbar/navbar.jsx';
+import Signup from './components/signup/signup.jsx';
 
 class Index extends React.Component {
   constructor(props) {
@@ -14,9 +15,10 @@ class Index extends React.Component {
 
   render() {
     let routes = [
-      { path: "/",           name: "Home",        btnType: "primary",   component: Home },
-      { path: "/about",      name: "About",       btnType: "info",      component: About },
-      { path: "/testing",      name: "Testing",       btnType: "info",      component: Testing }
+      { path: "/", name: "Home", component: Home },
+      { path: "/about", name: "About", component: About },
+      { path: "/testing", name: "Testing", component: Testing },
+      { path: "/signup", name: "Signup", component: Signup }
     ];
 
     return (
