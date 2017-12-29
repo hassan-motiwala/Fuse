@@ -14,7 +14,9 @@ router.get('/', function(req, res) {
 
 //User Account Creation
 router.post('/', function(req, res) {
-    console.log(req.body);
+    DB.collection('users').insert(req.body, (err)=> {
+        err ? console.log(err) : res.redirect('../');
+    });
 });
 
 module.exports = router;
