@@ -46,7 +46,6 @@ app.use('/api', apiRoutes);
 app.use('/testing', testing);
 app.use('/signup', signup);
 
-
 //Catches undefined pages
 app.get('*', (req, res) => {
     res.render('pages/index', {

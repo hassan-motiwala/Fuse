@@ -21,6 +21,8 @@ module.exports = app => {
             console.log(`user ${req.user.email} logged out`);
             req.logout();
             res.redirect('/');
+        } else {
+            res.redirect('/');
         }
     });
 };
