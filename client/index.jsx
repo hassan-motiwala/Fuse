@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route, Redirect, Link } from 'react-router-dom';
 
@@ -8,7 +7,6 @@ import About from './components/about.jsx';
 import Testing from './components/testing.jsx';
 import NavBar from './components/navbar/navbar.jsx';
 import Signup from './components/signup/signup.jsx';
-import LoginBttn from './components/loginbttn.jsx';
 
 class Index extends React.Component {
   constructor(props) {
@@ -30,7 +28,6 @@ class Index extends React.Component {
             {routes.map(route => <Route exact path={route.path} component={route.component} key={route.path} />)}
             <Redirect to ="/"/>
           </Switch>
-          <LoginBttn/>
         </div>
       </BrowserRouter>
     );

@@ -1,0 +1,11 @@
+.modal-backdrop {
+    z-index: 20;
+}
+
+.navbar {
+    z-index: 40;
+}
+
+#login, #logout, #signup, #user-greetings {
+    display: inline;
+}

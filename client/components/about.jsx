@@ -21,9 +21,7 @@ export default class About extends React.Component {
 			<div className="content">
 				<h5>Built by <a href="http://www.nathandalal.com">Nathan Dalal</a>.</h5>
 				<h6>Please make an issue on Github with any complaints or suggestions.</h6>
-				<p>
-					This text comes from <a href="/api">an API located here</a>. <pre>{this.state.text}</pre>	
-				</p>
+				This text comes from <a href="/api">an API located here</a>. <pre>{this.state.text}</pre>	
 			</div>
 		);
 	}
