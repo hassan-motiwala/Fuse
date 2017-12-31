@@ -31,10 +31,10 @@ router.post('/', function(req, res) {
             console.log(err);
         } else if (result.length == 0) {
             DB.collection('users').insert(newUser, (err)=> {
-                err ? console.log(err) : res.redirect('../');
+                err ? console.log(err) : res.send({valid: true});
             });
         } else {
-            res.send({text: 'Is Taken'});
+            res.send({valid: false});
         }
     });
 });
