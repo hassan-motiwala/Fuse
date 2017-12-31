@@ -10,7 +10,7 @@ export default class LoginBttn extends React.Component {
         
         this.state = {
         user: '',
-        isLoggedIn: false
+        isLoggedIn: null
         };
     }
     
@@ -51,10 +51,10 @@ export default class LoginBttn extends React.Component {
         var button = null;
         var signup = null;
         var user = null;
-        if (isLoggedIn) {
+        if (isLoggedIn && isLoggedIn != null) {
             button = <LogoutButton onClick = {this.logout} />;
             user = <UserGreetings/>;
-        } else {
+        } else if (isLoggedIn != null) {
             button = <LoginButton onClick = {this.login} />;
             signup = <SignupButton/>;
         }
