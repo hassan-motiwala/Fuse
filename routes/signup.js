@@ -9,13 +9,33 @@ mongoConnect.connect(() => {
 });
 
 router.get('/', function(req, res) {
-    res.render('pages/signup.njk');
+    req.user ? res.redirect('/') : res.render('pages/signup.njk');
 });
+
 
 //User Account Creation
 router.post('/', function(req, res) {
-    DB.collection('users').insert(req.body, (err)=> {
-        err ? console.log(err) : res.redirect('../');
+    var newUser = {username: req.body.username, password: req.body.password,
+    email: req.body.email, phone: req.body.phone, usertype: null,
+    permission: 0, location: null, direction: null,
+    active: false, rating: -1, rides: 0, friends: [], blocks: [], pastLogs: [],
+    settings: {
+        firstName: req.body.fName,
+        lastName: req.body.lName,
+        birthday: req.body.bday
+    }};
+    DB.collection('users').find({
+        $or:[{username: newUser.username}, {email: newUser.email}, {phone: newUser.phone}]
+    }).toArray((err, result) => {
+        if (err) {
+            console.log(err);
+        } else if (result.length == 0) {
+            DB.collection('users').insert(newUser, (err)=> {
+                err ? console.log(err) : res.redirect('../');
+            });
+        } else {
+            res.send({text: 'Is Taken'});
+        }
     });
 });
 

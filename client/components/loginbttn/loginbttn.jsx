@@ -55,7 +55,7 @@ export default class LoginBttn extends React.Component {
             button = <LogoutButton onClick = {this.logout} />;
             user = <UserGreetings/>;
         } else if (isLoggedIn != null) {
-            button = <LoginButton onClick = {this.login} />;
+            button = <LoginButton onClick = {this.login}/>;
             signup = <SignupButton/>;
         }
         return (

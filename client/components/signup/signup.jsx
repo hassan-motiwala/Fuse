@@ -1,7 +1,22 @@
 import React from 'react';
+import axios from 'axios';
 import './signup.css';
 
 export default class Signup extends React.Component {
+    constructor(props) {
+		super(props);
+		this.state = {
+			text: "Loading..."
+		};
+	}
+
+	componentDidMount() {
+		axios.get('/api/helloworld')
+		.then(({data}) => this.setState({
+			text: data.text
+		}));
+	}
+
     render() {
         return(
             <form action='/signup' method='POST'>
@@ -42,6 +57,12 @@ export default class Signup extends React.Component {
                         <input type='email' className='form-control' name='email' aria-describedby='emailHelp' placeholder='Enter email'/>
                     </div>
                     <small id='emailHelp' className='form-text text-muted'>We'll never share your email with anyone else.</small>
+                </div>
+                <div class='form-group row'>
+                    <label for='date-input'>Date</label>
+                    <div className='col-5'>
+                        <input className='form-control' name='bday' type='date' value='2000-01-01' id='date-input'/>
+                    </div>
                 </div>
                 <button type='submit' className='btn btn-primary'>Submit</button>
             </form>

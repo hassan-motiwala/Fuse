@@ -12,7 +12,8 @@ module.exports = app => {
     app.post('/login', passport.authenticate('local', {
         successRedirect: '/', failureRedirect: '/login'
         }), (req, res) => {
-            res.redirect('/');
+            console.log('YAY')
+            res.redirect('/')
         }
     );
     
