@@ -36,6 +36,9 @@ passport.use(new LocalStrategy({
             return done(null, false);
         } else {
             console.log(user.email + ' has logged in');
+            var date = new Date();
+            date = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+            DB.collection('users').update({email: username}, {$push:{pastLogs: date}});
             return done(null, user);
         }
     });

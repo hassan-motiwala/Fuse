@@ -1,6 +1,12 @@
 const passport = require('passport');
 
 module.exports = app => {
+    //Connect To MongoDB
+    const mongoConnect = require('../libraries/mongoConnect.js');
+    var DB;
+    mongoConnect.connect(() => {
+        DB = mongoConnect.getDB();
+    });
     app.get('/api/current-user', (req, res) => {
         if (req.user) {
             res.send(req.user);
