@@ -27,6 +27,7 @@ export default class LoginBttn extends React.Component {
         });
 	}
   
+    //Handles Login
     login() {
         axios.get('/api/current-user')
         .then(({data}) => {
@@ -36,7 +37,8 @@ export default class LoginBttn extends React.Component {
             console.log(err);
         });
     }
-  
+    
+    //Handles Logout
     logout() {
         axios.get('/auth/logout')
         .then(()=> {
@@ -53,14 +55,14 @@ export default class LoginBttn extends React.Component {
         var user = null;
         if (isLoggedIn && isLoggedIn != null) {
             button = <LogoutButton onClick = {this.logout} />;
-            user = <UserGreetings/>;
+            user = <UserGreetings value = {this.state.user}/>;
         } else if (isLoggedIn != null) {
             button = <LoginButton onClick = {this.login}/>;
             signup = <SignupButton/>;
         }
         return (
             <div className='log-button'>
-                {user}{' '}{this.state.user}{' '}
+                {user}
                 {button}
                 {signup}
             </div>
@@ -71,7 +73,7 @@ export default class LoginBttn extends React.Component {
 function UserGreetings(props) {
     return(
         <div id='user-greetings'>
-            Hello,
+            Hello, {props.value}
         </div>
     );
 }
