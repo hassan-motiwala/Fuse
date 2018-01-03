@@ -10,7 +10,8 @@ export default class LoginBttn extends React.Component {
         
         this.state = {
         user: '',
-        isLoggedIn: null
+        isLoggedIn: null,
+        usertype: null
         };
     }
     
@@ -19,9 +20,9 @@ export default class LoginBttn extends React.Component {
         axios.get('/api/current-user')
         .then(({data}) => {
         if (data.username == undefined) {
-            this.setState({user: '', isLoggedIn: false});
+            this.setState({user: '', isLoggedIn: false, usertype: null});
         } else {
-            this.setState({user: data.username, isLoggedIn: true});
+            this.setState({user: data.username, isLoggedIn: true, usertype: data.usertype});
         }}).catch((err) => {
             console.log(err);
         });
@@ -32,7 +33,7 @@ export default class LoginBttn extends React.Component {
         axios.get('/api/current-user')
         .then(({data}) => {
         if (data.username != undefined) {
-            this.setState({user: data.username, isLoggedIn: true});
+            this.setState({user: data.username, isLoggedIn: true, usertype: data.usertype});
         }}).catch((err) => {
             console.log(err);
         });
@@ -42,7 +43,7 @@ export default class LoginBttn extends React.Component {
     logout() {
         axios.get('/auth/logout')
         .then(()=> {
-            this.setState({user: '', isLoggedIn: false});
+            this.setState({user: '', isLoggedIn: false, usertype: null});
         }).catch((err) => {
             console.log(err);
         });
@@ -54,8 +55,8 @@ export default class LoginBttn extends React.Component {
         var signup = null;
         var user = null;
         if (isLoggedIn && isLoggedIn != null) {
-            button = <LogoutButton onClick = {this.logout} />;
-            user = <UserGreetings value = {this.state.user}/>;
+            button = <LogoutButton onClick = {this.logout}/>;
+            user = <UserGreetings value = {this.state.user} usertype = {this.state.usertype}/>;
         } else if (isLoggedIn != null) {
             button = <LoginButton onClick = {this.login}/>;
             signup = <SignupButton/>;
@@ -71,9 +72,16 @@ export default class LoginBttn extends React.Component {
 }
 
 function UserGreetings(props) {
+    var setupUserType = null;
+    if (props.usertype == null) {
+        setupUserType = <SetupUserType/>;
+    }
     return(
-        <div id='user-greetings'>
-            Hello, {props.value}
+        <div id='user-data'>
+            <div id='user-greetings'>
+                Hello, {props.value}
+            </div>
+            {setupUserType}
         </div>
     );
 }
@@ -81,16 +89,16 @@ function UserGreetings(props) {
 function LoginButton(props) {
     return (
     <div id='login'>
-        <div className="modal fade" id="loginModal" role="dialog" aria-labelledby="loginModal" aria-hidden="true">
-            <div className="modal-dialog" role="document">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title" id="login">Login</h5>
-                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+        <div className='modal fade' id='loginModal' role='dialog' aria-labelledby='loginModal' aria-hidden='true'>
+            <div className='modal-dialog' role='document'>
+                <div className='modal-content'>
+                    <div className='modal-header'>
+                        <h5 className='modal-title' id='login'>Login</h5>
+                        <button type='button' className='close' data-dismiss='modal' aria-label='Close'>
+                            <span aria-hidden='true'>&times;</span>
                         </button>
                     </div>
-                    <div className="modal-body">
+                    <div className='modal-body'>
                         <form action='/login' method='POST'>
                             <div className='form-group row'>
                                 <label>Email address</label>
@@ -106,13 +114,12 @@ function LoginButton(props) {
                                 </div>
                             </div>
                             <button type='submit' className='btn btn-primary'>Login</button>
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <button onClick={props.onClick} type="button" className="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+        <button onClick={props.onClick} type='button' className='btn btn-primary' data-toggle='modal' data-target='#loginModal'>
         Login
         </button>
     </div>
@@ -122,7 +129,7 @@ function LoginButton(props) {
 function LogoutButton(props) {
     return (
         <div id='logout'>
-            <button onClick={props.onClick} className="btn btn-warning">
+            <button onClick={props.onClick} className='btn btn-warning'>
             Logout
             </button>
         </div>
@@ -133,10 +140,51 @@ function SignupButton (props) {
     return(
         <div id='signup'>
             <a href='/signup'>
-                <button onClick={props.onClick} className="btn btn-success">
+                <button onClick={props.onClick} className='btn btn-success'>
                 Sign Up
                 </button>
             </a>
+        </div>
+    );
+}
+
+function SetupUserType(props) {
+    return(
+        <div id='setting-modal'>
+            <button type='button' className='btn btn-primary' data-toggle='modal' data-target='#user-type-modal'>
+                Declare User Type
+            </button>
+            <div className='modal fade' id='user-type-modal' tabIndex='-1' role='dialog' aria-labelledby='user-modal' aria-hidden='true'>
+                <div className='modal-dialog' role='document'>
+                    <div className='modal-content'>
+                        <div className='modal-header'>
+                            <h5 className='modal-title' id='user-modal'>What Will You Be Using Fuse For?</h5>
+                            <button type='button' className='close' data-dismiss='modal' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                        <div className='modal-body'>
+                            <div className='card' id='card-driver' style={{width: '16rem'}}>
+                                <img className='card-img-top' src='../images/steering-wheel.png' alt='Image Fail To load'/>
+                                <div className='card-body'>
+                                    <h5 className='card-title'>Driver</h5>
+                                    <p className='card-text'>Stuff that the driver would do...</p>
+                                </div>
+                            </div>
+                            <div className='card' id='card-passenger' style={{width: '16rem'}}>
+                                <img className='card-img-top' src='../images/seat.png' alt='Image Fail To load'/>
+                                <div className='card-body'>
+                                    <h5 className='card-title'>Passenger</h5>
+                                    <p className='card-text'>Stuff that the passenger would do...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='modal-footer'>
+                            <button type='button' className='btn btn-primary'>Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

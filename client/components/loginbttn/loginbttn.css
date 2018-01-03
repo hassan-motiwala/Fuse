@@ -6,6 +6,24 @@
     z-index: 40;
 }
 
-#login, #logout, #signup, #user-greetings {
+#login, #logout, #signup {
     display: inline;
+    padding-right: 5px;
+}
+
+#user-greetings {
+    color: white;
+    display: inline;
+}
+
+#user-data {
+    display: inline;
+}
+
+#setting-modal {
+    display: inline;
+}
+
+.card {
+    display: inline-block;
 }
