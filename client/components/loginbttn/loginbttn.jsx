@@ -5,8 +5,8 @@ import './loginbttn.css';
 export default class LoginBttn extends React.Component {
     constructor(props) {
         super(props);
-        this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
+        this.setUserType = this.setUserType.bind(this);
         
         this.state = {
         user: '',
@@ -27,24 +27,26 @@ export default class LoginBttn extends React.Component {
             console.log(err);
         });
 	}
-  
-    //Handles Login
-    login() {
-        axios.get('/api/current-user')
-        .then(({data}) => {
-        if (data.username != undefined) {
-            this.setState({user: data.username, isLoggedIn: true, usertype: data.usertype});
-        }}).catch((err) => {
-            console.log(err);
-        });
-    }
     
     //Handles Logout
     logout() {
         axios.get('/auth/logout')
         .then(()=> {
             this.setState({user: '', isLoggedIn: false, usertype: null});
-        }).catch((err) => {
+        }).catch((err)=> {
+            console.log(err);
+        });
+    }
+    
+    //Sets user type
+    setUserType(userType) {
+        axios.post('/signup/setUserType', {
+            user: this.state.user,
+            userType: userType
+        })
+        .then((res)=> {
+            res ? window.location = '/' : console.log('There is some error.');
+        }).catch((err)=> {
             console.log(err);
         });
     }
@@ -56,9 +58,11 @@ export default class LoginBttn extends React.Component {
         var user = null;
         if (isLoggedIn && isLoggedIn != null) {
             button = <LogoutButton onClick = {this.logout}/>;
-            user = <UserGreetings value = {this.state.user} usertype = {this.state.usertype}/>;
+            user = <UserGreetings 
+            value = {this.state.user} usertype = {this.state.usertype} setType = {this.setUserType}
+            />;
         } else if (isLoggedIn != null) {
-            button = <LoginButton onClick = {this.login}/>;
+            button = <LoginButton/>;
             signup = <SignupButton/>;
         }
         return (
@@ -71,11 +75,9 @@ export default class LoginBttn extends React.Component {
     }
 }
 
+//User Greeting
 function UserGreetings(props) {
-    var setupUserType = null;
-    if (props.usertype == null) {
-        setupUserType = <SetupUserType/>;
-    }
+    var setupUserType = <SetupUserType setType = {props.setType}/>;
     return(
         <div id='user-data'>
             <div id='user-greetings'>
@@ -86,6 +88,7 @@ function UserGreetings(props) {
     );
 }
 
+//Login Button Component
 function LoginButton(props) {
     return (
     <div id='login'>
@@ -119,13 +122,14 @@ function LoginButton(props) {
                 </div>
             </div>
         </div>
-        <button onClick={props.onClick} type='button' className='btn btn-primary' data-toggle='modal' data-target='#loginModal'>
+        <button type='button' className='btn btn-primary' data-toggle='modal' data-target='#loginModal'>
         Login
         </button>
     </div>
     );
 }
 
+//Logout Button Component
 function LogoutButton(props) {
     return (
         <div id='logout'>
@@ -136,6 +140,7 @@ function LogoutButton(props) {
     );
 }
 
+//Signup Button Component
 function SignupButton (props) {
     return(
         <div id='signup'>
@@ -148,11 +153,12 @@ function SignupButton (props) {
     );
 }
 
+//Setup User Type Component
 function SetupUserType(props) {
     return(
         <div id='setting-modal'>
             <button type='button' className='btn btn-primary' data-toggle='modal' data-target='#user-type-modal'>
-                Declare User Type
+                <i class="fas fa-cogs"></i>
             </button>
             <div className='modal fade' id='user-type-modal' tabIndex='-1' role='dialog' aria-labelledby='user-modal' aria-hidden='true'>
                 <div className='modal-dialog' role='document'>
@@ -164,23 +170,24 @@ function SetupUserType(props) {
                             </button>
                         </div>
                         <div className='modal-body'>
-                            <div className='card' id='card-driver' style={{width: '16rem'}}>
-                                <img className='card-img-top' src='../images/steering-wheel.png' alt='Image Fail To load'/>
-                                <div className='card-body'>
-                                    <h5 className='card-title'>Driver</h5>
-                                    <p className='card-text'>Stuff that the driver would do...</p>
+                            <button onClick = {()=> props.setType(userType.driver)}>
+                                <div className='card' id='card-driver' style={{width: '16rem'}}>
+                                    <img className='card-img-top' src='../images/steering-wheel.png' alt='Image Fail To load'/>
+                                    <div className='card-body'>
+                                        <h5 className='card-title'>Driver</h5>
+                                        <p className='card-text'>Stuff that the driver would do...</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='card' id='card-passenger' style={{width: '16rem'}}>
-                                <img className='card-img-top' src='../images/seat.png' alt='Image Fail To load'/>
-                                <div className='card-body'>
-                                    <h5 className='card-title'>Passenger</h5>
-                                    <p className='card-text'>Stuff that the passenger would do...</p>
+                            </button>
+                            <button onClick = {()=> props.setType(userType.passenger)}>
+                                <div className='card' id='card-passenger' style={{width: '16rem'}}>
+                                    <img className='card-img-top' src='../images/seat.png' alt='Image Fail To load'/>
+                                    <div className='card-body'>
+                                        <h5 className='card-title'>Passenger</h5>
+                                        <p className='card-text'>Stuff that the passenger would do...</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className='modal-footer'>
-                            <button type='button' className='btn btn-primary'>Save changes</button>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -188,3 +195,8 @@ function SetupUserType(props) {
         </div>
     );
 }
+
+const userType = {
+    driver: 'driver',
+    passenger: 'passenger'
+};

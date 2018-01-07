@@ -39,4 +39,12 @@ router.post('/', function(req, res) {
     });
 });
 
+router.post('/setUserType', function(req, res) {
+    const username = req.body.user;
+    const userType = req.body.userType;
+    DB.collection('users').update({username: username}, {$set: {usertype: userType}}, function(err) {
+        err ? console.log(err) : res.send(true);
+    });
+});
+
 module.exports = router;
