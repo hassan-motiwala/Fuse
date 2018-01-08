@@ -7,16 +7,19 @@ export default class Signup extends React.Component {
 		super(props);
         this.signupCheck = this.signupCheck.bind(this);
 	}
-
+	
+	
 	signupCheck(e) {
-	    e.preventDefault();
+        e.preventDefault();
 		axios.post('/signup', {
-		    fName: this.fName.value, lName: this.lName.value, phone: this.phone.value,
-		    username: this.username.value, password: this.password.value, email: this.email.value,
-		    bday: this.bday.value
-		}).then((response)=> {
-		    if (response.data.valid) {
-		        window.location = '/';
+            fName: this.fName.value, lName: this.lName.value, phone: this.phone.value,
+            username: this.username.value, password: this.password.value, email: this.email.value,
+            bday: this.bday.value
+		}).then((res)=> {
+            if (res.data.valid) { //Prevents users from signing up if email/username is invalid
+                window.location = '/';
+		    } else {
+		        console.log('Please try another username/email address')
 		    }
 		}).catch((err)=> {
 		    console.log(err);

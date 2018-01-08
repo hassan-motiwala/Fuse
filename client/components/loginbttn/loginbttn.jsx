@@ -28,6 +28,17 @@ export default class LoginBttn extends React.Component {
         });
 	}
     
+    //Handles Login
+    login() {
+        axios.post('/login', {
+            
+        }).then((res)=> {
+            res ? window.location = '/' : console.log('There is some error');
+        }).catch((err)=> {
+            console.log(err);
+        });
+    }
+    
     //Handles Logout
     logout() {
         axios.get('/auth/logout')
@@ -122,8 +133,8 @@ function LoginButton(props) {
                 </div>
             </div>
         </div>
-        <button type='button' className='btn btn-primary' data-toggle='modal' data-target='#loginModal'>
-        Login
+        <button type='button' className='btn btn-primary animated fadeIn' data-toggle='modal' data-target='#loginModal'>
+            <i className="far fa-user"></i> Login
         </button>
     </div>
     );
@@ -133,8 +144,8 @@ function LoginButton(props) {
 function LogoutButton(props) {
     return (
         <div id='logout'>
-            <button onClick={props.onClick} className='btn btn-warning'>
-            Logout
+            <button onClick={props.onClick} className='btn btn-warning animated fadeIn'>
+                <i className="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
     );
@@ -145,8 +156,8 @@ function SignupButton (props) {
     return(
         <div id='signup'>
             <a href='/signup'>
-                <button onClick={props.onClick} className='btn btn-success'>
-                Sign Up
+                <button onClick={props.onClick} className='btn btn-success animated fadeIn'>
+                    <i className="fas fa-pencil-alt"></i> Sign Up
                 </button>
             </a>
         </div>
@@ -158,7 +169,7 @@ function SetupUserType(props) {
     return(
         <div id='setting-modal'>
             <button type='button' className='btn btn-primary' data-toggle='modal' data-target='#user-type-modal'>
-                <i class="fas fa-cogs"></i>
+                <i className="fas fa-cog fa-spin"></i>
             </button>
             <div className='modal fade' id='user-type-modal' tabIndex='-1' role='dialog' aria-labelledby='user-modal' aria-hidden='true'>
                 <div className='modal-dialog' role='document'>
